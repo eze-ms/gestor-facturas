@@ -43,9 +43,13 @@
 
                         <div class="mb-3">
                             <label for="fecha" class="form-label">Fecha de Creación</label>
-                            <input type="date" th:field="*{createAt}" id="fecha" class="form-control"
+                            <input type="date"
+                                   th:field="*{createAt}" id="fecha"
+                                   class="form-control"
                                    th:errorclass="is-invalid" />
-                            <div class="invalid-feedback" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></div>
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('createAt')}"
+                                 th:errors="*{createAt}"></div>
                         </div>
 
                         <div class="mb-3">

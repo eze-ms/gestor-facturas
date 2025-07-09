@@ -31,9 +31,24 @@ public class FacturaController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @GetMapping("/ver/{id}")
+    public String ver(@PathVariable(value = "id") Long id,
+                      Model model,
+                      RedirectAttributes flash) {
+        Factura factura = clienteService.findFacturaById(id);
+        if (factura == null) {
+            flash.addFlashAttribute("error", "La factura no existe");
+            return "redirect:/listar";
+        }
+
+        model.addAttribute("factura", factura);
+        model.addAttribute("titulo", "Factura: ".concat(factura.getDescripcion()));
+        return "factura/ver";
+    }
+
     @GetMapping("/form/{clienteId}")
     public String crear(@PathVariable Long clienteId,
-                        Map<String, Object> model,
+                        Model model,
                         RedirectAttributes flash) {
 
         Cliente cliente = clienteService.findOne(clienteId);
@@ -45,11 +60,12 @@ public class FacturaController {
         Factura factura = new Factura();
         factura.setCliente(cliente);
 
-        model.put("factura", factura);
-        model.put("titulo", "Crear Factura");
+        model.addAttribute("factura", factura);
+        model.addAttribute("titulo", "Crear Factura");
 
         return "factura/form";
     }
+
 
     @GetMapping(value = "/cargar-productos/{term}", produces = {"application/json"})
     public @ResponseBody List<Producto> cargarProductos(@PathVariable String term){
