@@ -64,7 +64,7 @@ com.gestordefacturas.springboot.datajpa.app
 
 ## 🛠️ Instalación
 ```bash
-git clone https://github.com/eze-ms/realdooh-backend
+git clone https://https://github.com/eze-ms/gestor-facturas
 cd gestor-facturas
 spring-boot:run
 
