@@ -5,9 +5,12 @@ import com.gestordefacturas.springboot.datajpa.app.models.entity.Factura;
 import com.gestordefacturas.springboot.datajpa.app.models.entity.ItemFactura;
 import com.gestordefacturas.springboot.datajpa.app.models.entity.Producto;
 import com.gestordefacturas.springboot.datajpa.app.service.IClienteService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -54,16 +57,25 @@ public class FacturaController {
     }
 
     @PostMapping("/form")
-    public String guardar(Factura factura,
+    public String guardar(@Valid Factura factura,
+                          BindingResult result,
+                          Model model,
                           @RequestParam(name = "item_id[]", required = false) Long[] itemId,
                           @RequestParam(name = "cantidad[]", required = false) Integer[] cantidad,
                           RedirectAttributes flash,
                           SessionStatus status
                           ) {
 
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Crear Factura");
+            return "factura/form";
+
+        }
+
         if (itemId == null || itemId.length == 0) {
-            flash.addFlashAttribute("error", "La factura no puede estar vacía: debe tener al menos una línea.");
-            return "redirect:/factura/form/" + factura.getCliente().getId();
+            model.addAttribute("titulo", "Crear Factura");
+            model.addAttribute("error", "La factura no puede estar vacía");
+            return "factura/form";
         }
 
         for (int i = 0; i < itemId.length; i++) {

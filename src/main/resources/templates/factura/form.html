@@ -36,10 +36,18 @@
 
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
-                        <input type="text" th:field="*{descripcion}" id="descripcion" class="form-control"
-                               placeholder="Introduce una descripción" th:errorclass="is-invalid" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+                        <input type="text"
+                               th:field="*{descripcion}"
+                               id="descripcion"
+                               class="form-control"
+                               placeholder="Introduce una descripción"
+                               th:errorclass="is-invalid" />
+                        <div class="invalid-feedback"
+                             th:if="${#fields.hasErrors('descripcion')}"
+                             th:errors="*{descripcion}">
+                        </div>
                     </div>
+
 
                     <div class="mb-3">
                         <label for="observacion" class="form-label">Observación</label>
@@ -78,7 +86,7 @@
 
 
                     <div class="d-grid justify-content-center">
-                        <button type="submit" class="btn btn-guardar btn-sm">Guardar Factura</button>
+                        <button type="submit" class="btn btn-guardar btn-sm">Crear Factura</button>
                     </div>
 
                 </form>
