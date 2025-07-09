@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-5 d-flex flex-column mx-auto" style="width: 50%;">
+        <div class="card dark">
+            <div class="card-header-editar" th:text="${titulo}"></div>
+                <div class="card-body">
+                    <!-- Errores globales -->
+                    <div th:object="${cliente}">
+                        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                            <ul>
+                                <li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/form}" th:object="${cliente}" method="post" class="needs-validation" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" th:field="*{nombre}" id="nombre" class="form-control"
+                                   placeholder="Introduce tu nombre" th:errorclass="is-invalid" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" th:field="*{apellido}" id="apellido" class="form-control"
+                                   placeholder="Introduce tu apellido" th:errorclass="is-invalid" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" th:field="*{email}" id="email" class="form-control"
+                                   placeholder="nombre@ejemplo.com" th:errorclass="is-invalid" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha" class="form-label">Fecha de Creación</label>
+                            <input type="date" th:field="*{createAt}" id="fecha" class="form-control"
+                                   th:errorclass="is-invalid" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Foto</label>
+                            <input type="file" name="file" id="file" class="form-control" />
+                        </div>
+
+                        <div class="d-grid justify-content-center">
+                            <button type="submit" class="btn btn-primary">Crear Cliente</button>
+                        </div>
+
+                    </form>
+
+                </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

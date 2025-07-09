@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+    <header th:replace="layout/layout :: header"></header>
+    <div class="container py-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-header-ver text-white fw-semibold fs-5" th:text="${titulo}"></div>
+
+            <h4 class="text-primary mb-0 text-end p-3">
+                <a class="btn btn-create btn-sm"
+                   th:href="@{'/factura/form/' + ${cliente.id}}"
+                   onclick="event.stopPropagation()">+ Crear factura
+                </a>
+            </h4>
+
+            <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4">
+
+                <div class="text-center">
+                    <img th:if="${#strings.length(cliente.foto) > 0}"
+                         class="img-fluid rounded border"
+                         style="max-width: 250px;"
+                         th:src="@{'/uploads/' + ${cliente.foto}}"
+                         th:alt="${cliente.foto}" />
+                    <p th:if="${#strings.length(cliente.foto) == 0}" class="text-muted fst-italic">Sin foto</p>
+                </div>
+                <div class="w-100">
+                    <div class="list-group list-group-flush shadow-sm rounded">
+                        <div class="list-group-item">
+                            <strong>Nombre:</strong> <span th:text="${cliente.nombre}"></span>
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Apellido:</strong> <span th:text="${cliente.apellido}"></span>
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Email:</strong> <span th:text="${cliente.email}"></span>
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Fecha de creación:</strong> <span th:text="${cliente.createAt}"></span>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4 mb-3">Facturas del cliente</h5>
+
+                    <!-- Si no hay facturas -->
+                    <div th:if="${#lists.isEmpty(cliente.facturas)}" class="alert alert-info my-4">
+                        No hay facturas asignadas para el cliente <span th:text="${cliente.nombre} + ' ' + ${cliente.apellido}"></span>.
+                    </div>
+
+                    <!-- Tabla de facturas -->
+                    <table th:if="${not #lists.isEmpty(cliente.facturas)}" class="table table-bordered table-striped my-4">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="factura : ${cliente.facturas}">
+                            <td th:text="${factura.id}"></td>
+                            <td th:text="${factura.descripcion}"></td>
+                            <td th:text="${#temporals.format(factura.createAt, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#numbers.formatDecimal(factura.total, 1, 'POINT', 2, 'COMMA')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

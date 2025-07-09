@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-5">
+        <div class="row">
+
+            <!-- Columna izquierda: panel del cliente -->
+            <div class="col-md-4">
+                <th:block th:if="${clienteSeleccionado != null}">
+                    <div th:replace="cliente-panel :: panel(${clienteSeleccionado})"></div>
+                </th:block>
+            </div>
+
+            <!-- Columna derecha: tabla de clientes -->
+            <div class="col-md-8">
+                <div class="card bg-light">
+                    <div class="card-body">
+
+                        <div class="card-title d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="text-primary mb-0"></h4>
+                            <a th:href="@{/form}" class="btn btn-create btn-sm">+ Crear cliente</a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-class">
+                                    <tr class="table-row-class">
+                                        <th style="width: 5%;">ID</th>
+                                        <th style="width: 10%;">Nombre</th>
+                                        <th style="width: 10%;">Apellidos</th>
+                                        <th style="width: 5%;">Email</th>
+                                        <th style="width: 5%;">Fecha</th>
+                                        <th style="width: 0%;">Factura</th>
+                                        <th style="width: 5%;" class="text-center">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="cliente : ${clientes.content}"
+                                        th:classappend="${clienteSeleccionado != null and cliente.id == clienteSeleccionado.id} ? 'fila-seleccionada' : ''"
+                                        style="cursor: pointer;"
+                                        th:onclick="|window.location.href='@{/listar(page=${page.paginaActual - 1}, clienteId=${cliente.id})}'|">
+
+                                        <td th:text="${cliente.id}"></td>
+                                        <td th:text="${cliente.nombre}"></td>
+                                        <td th:text="${cliente.apellido}"></td>
+                                        <td th:text="${cliente.email}"></td>
+                                        <td th:text="${#temporals.format(cliente.createAt, 'dd/MM/yyyy')}"></td>
+                                        <td class="text-center">
+                                            <a class="btn btn-create-fact btn-sm"
+                                               th:href="@{'/factura/form/' + ${cliente.id}}"
+                                               onclick="event.stopPropagation()">Crear
+                                            </a>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <a class="btn btn-delete btn-sm"
+                                               th:href="@{/eliminar/{id}(id=${cliente.id})}"
+                                               onclick="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">Eliminar
+                                            </a>
+                                        </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <nav th:replace="paginator-nav :: paginator"></nav>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-5 d-flex flex-column mx-auto" style="width: 50%;">
+        <div class="card dark">
+            <div class="card-header-crear" th:text="${titulo}"></div>
+            <div class="card-body">
+
+                <!-- Errores globales -->
+                <div th:object="${factura}">
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        <ul>
+                            <li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="text-primary mb-0 text-end p-3">
+                    <a class="btn btn-volveratras btn-xs"
+                       th:href="@{'/ver/' + ${factura.cliente.id}}"
+                       onclick="event.stopPropagation()">« volver
+                    </a>
+                </h4>
+
+                <form th:action="@{/factura/form}" th:object="${factura}" method="post" class="needs-validation">
+
+                    <div class="mb-3">
+                        <label for="cliente" class="form-label">Cliente</label>
+                        <input id="cliente"
+                               th:value="|${factura.cliente.nombre} ${factura.cliente.apellido}|"
+                               class="form-control" disabled />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" th:field="*{descripcion}" id="descripcion" class="form-control"
+                               placeholder="Introduce una descripción" th:errorclass="is-invalid" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="observacion" class="form-label">Observación</label>
+                        <textarea th:field="*{observacion}" id="observacion" class="form-control"
+                                  placeholder="Opcional" th:errorclass="is-invalid"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('observacion')}" th:errors="*{observacion}"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="buscar_producto" class="form-label">Buscar producto</label>
+                        <input type="text" id="buscar_producto" class="form-control"
+                               placeholder="Buscar producto..." />
+                    </div>
+
+                    <table th:replace="factura/plantilla-items :: itemsFactura"></table>
+
+                    <table id="cargarItemProductos" class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Aquí se insertarán las filas -->
+                        </tbody>
+                    </table>
+
+                    <div class="text-end mt-4">
+                        <h5>Total factura:</h5>
+                        <span id="gran_total" class="total-factura">0.00</span>
+                    </div>
+
+
+                    <div class="d-grid justify-content-center">
+                        <button type="submit" class="btn btn-guardar btn-sm">Guardar Factura</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+    <script th:replace="factura/js/autocomplete-productos :: javascript"></script>
+</body>
+</html>
