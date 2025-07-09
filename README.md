@@ -66,8 +66,7 @@ com.gestordefacturas.springboot.datajpa.app
 ```bash
 git clone https://https://github.com/eze-ms/gestor-facturas
 cd gestor-facturas
-spring-boot:run
-
+mvn spring-boot:run
 ```
 
 #### Acceso a la aplicación
