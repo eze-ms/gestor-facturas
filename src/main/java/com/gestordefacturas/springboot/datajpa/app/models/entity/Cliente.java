@@ -110,6 +110,11 @@ public class Cliente implements Serializable {
         factura.setCliente(this);
     }
 
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
+
     private static final long serialVersionUID = 1L;
 
 }
