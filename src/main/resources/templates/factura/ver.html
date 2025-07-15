@@ -28,6 +28,51 @@
                 <li class="list-group-item" th:text="'Fecha: ' + ${factura.createAt}"></li>
             </ul>
 
+            <div class="alert alert-info my-4"
+                 th:if="${#lists.isEmpty(factura.items)}"
+                 th:text="'No hay líneas para las facturas' + ${factura.descripcion}}">
+            </div>
+
+            <table th:if="${not #lists.isEmpty(factura.items)}"
+                   class="table table-sm table-striped table-hover table-bordered my-3">
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="linea: ${factura.items}">
+                        <td th:text="${linea.producto.nombre}"></td>
+                        <td th:text="${#numbers.formatDecimal(linea.producto.precio, 1, 2)}"></td>
+                        <td th:text="${linea.cantidad}"></td>
+                        <td th:text="${#numbers.formatDecimal(linea.calcularImporte(), 1, 2)}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-end mt-4">
+                <h5>Total:</h5>
+                <span th:text="${factura.total}" id="gran_total" class="total-factura">0.00</span>
+            </div>
+            <div class="card dark border-0 shadow-sm my-4">
+                <div class="card-header bg-transparent border-bottom">
+                    <h5 class="mb-0 text-primary">Observaciones</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fst-italic text-light"
+                       th:text="${factura.observacion}"
+                       th:if="${not #strings.isEmpty(factura.observacion)}">
+                    </p>
+                    <p class="card-text text-secondary fst-italic"
+                       th:if="${#strings.isEmpty(factura.observacion)}"
+                       th:text="'No tiene observaciones'">
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

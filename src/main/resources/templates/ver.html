@@ -64,7 +64,7 @@
                             <td th:text="${factura.descripcion}"></td>
                             <td th:text="${#temporals.format(factura.createAt, 'dd/MM/yyyy')}"></td>
                             <td th:text="${#numbers.formatDecimal(factura.total, 1, 'POINT', 2, 'COMMA')}"></td>
-                            <td><a class="btn btn-primary btm-xs" th:href="@{'/factura/ver/' + ${factura.id}}" th:text="'detalle'"></a></td>
+                            <td><a class="btn btn-create btn-sm" th:href="@{'/factura/ver/' + ${factura.id}}" th:text="'Detalles'"></a></td>
                         </tr>
                         </tbody>
                     </table>
