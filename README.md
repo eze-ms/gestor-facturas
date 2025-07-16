@@ -9,20 +9,22 @@
 
 ## 📄 Descripción
 
-Aplicación web construida con Java 17 y Spring Boot que permite gestionar clientes y facturas. Incluye operaciones CRUD completas, subida de imágenes, generación de facturas dinámicas con productos y cálculos automáticos. Usa JPA para persistencia, Thymeleaf como motor de vistas y Bootstrap para el diseño.
+Aplicación web construida con Java 17 y Spring Boot que permite gestionar clientes y facturas. Incluye operaciones CRUD completas, subida de imágenes, generación de facturas dinámicas con productos y cálculo de totales. Usa JPA para persistencia, Thymeleaf como motor de vistas y Bootstrap para el diseño.
 
 ---
 
 ## ✨ Funcionalidades
 
-- CRUD completo de clientes con región y foto.
-- Creación de facturas por cliente con múltiples productos.
-- Cálculo dinámico de totales e importes.
-- Autocompletado de productos con jQuery UI.
-- Paginación personalizada con helper reusable.
-- Validaciones y control de errores en formularios.
-- Gestión de archivos en sistema local (`/uploads`).
-- Diseño responsive con Bootstrap 5.
+- CRUD de clientes con región y subida de foto.
+- Formulario de creación de facturas con validación completa.
+- Búsqueda dinámica de productos con jQuery UI.
+- Añadir múltiples líneas de factura con totales automáticos.
+- Detalle completo de factura con cliente, ítems y observación.
+- Detalle del cliente con sus facturas.
+- Eliminación de facturas desde la vista del cliente.
+- Consulta optimizada (`fetch join`) para evitar lazy loading en vistas de detalle.
+- Diseño oscuro, limpio y responsive.
+- Gestión de archivos en el sistema local (`/uploads`).
 
 ---
 
@@ -45,11 +47,11 @@ com.gestordefacturas.springboot.datajpa.app
 ## 💻 Tecnologías Utilizadas
 
 - **Java 17**
-- **Spring Boot**
+- **Spring Boot 3**
 - **Spring Data JPA** 
 - **Thymeleaf** 
-- **Bootstrap** 
-- **jQuery UI Autocomplete**
+- **Bootstrap 5** 
+- **jQuery UI**
 - **MySQL**
 - **Maven**
 ---
